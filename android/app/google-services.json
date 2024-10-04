@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "34837689552",
+    "project_id": "zeromovie-7fd17",
+    "storage_bucket": "zeromovie-7fd17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:34837689552:android:c23ec57a5ab359d844dad5",
+        "android_client_info": {
+          "package_name": "com.zero_movie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "34837689552-cmqmngf5l5ad9mc5vrjb163ghh1vvpj5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9djWNRKlxr3UNlE5hYV93fcFc5V2Hhkk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "34837689552-cmqmngf5l5ad9mc5vrjb163ghh1vvpj5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

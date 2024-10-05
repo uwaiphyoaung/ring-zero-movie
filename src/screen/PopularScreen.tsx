@@ -51,7 +51,7 @@ const PopularScreen = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      {!isNetwork && <NoInternetWarning visible={true} position={0} />}
+      <NoInternetWarning visible={isNetwork} position={0} />
 
       <MovieListComponent
         movies={movieList}

@@ -24,10 +24,12 @@ const MovieCastList: React.FC<{ movieId: number }> = ({ movieId }) => {
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {data.cast.map((actor) => (
           <View key={actor.id} style={styles.actorView}>
-            <Image
-              style={styles.actorImage}
-              source={{ uri: actor.profile_path ? `${IMG_PATH}/${actor.profile_path}` : undefined }}
-            />
+            <View style={styles.actorBg}>
+              <Image
+                style={styles.actorImage}
+                source={{ uri: actor.profile_path ? `${IMG_PATH}/${actor.profile_path}` : undefined }}
+              />
+            </View>
             <Text style={styles.actorName}>{actor.name}</Text>
             <Text style={styles.actionCharacter}>{actor.character}</Text>
           </View>
@@ -55,6 +57,12 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
+  },
+  actorBg: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor:'#dedcdc'
   },
   actorName: {
     marginTop: 5,

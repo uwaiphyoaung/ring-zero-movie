@@ -77,7 +77,7 @@ const SearchScreen: React.FC = () => {
         onBack={handleBack} 
       />
 
-      {!isNetwork && <NoInternetWarning visible={true} position={50} />}
+      <NoInternetWarning visible={isNetwork} position={50} />
 
       <View style={styles.body}>
         {(!submittedQuery && !isLoading) && (

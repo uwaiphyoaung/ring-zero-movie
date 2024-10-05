@@ -8,7 +8,7 @@ const MovieTabNavigation = () => {
     return (
         <Tab.Navigator>
                 <Tab.Screen
-                options={{ title: "Popular", tabBarLabelStyle: {textTransform:'capitalize', fontWeight:'700',fontSize:18}}}
+                options={{ title: "Upcominig", tabBarLabelStyle: {textTransform:'capitalize', fontWeight:'700',fontSize:18}}}
                 name="UpcomingScreen" component={UpcomingScreen}/>
                 <Tab.Screen 
                 options={{ title: "Popular", tabBarLabelStyle: {textTransform:'capitalize', fontWeight:'700',fontSize:18}}}

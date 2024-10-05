@@ -1,72 +1,41 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
-import { IconButton, Menu, Dialog, Paragraph, Button, Portal } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
-import { logoutUser } from '../redux/slice/AuthSlice';
-import { AppHeaderProps } from '../types/RootStackParamList';
-import { signOutScocialAccount } from '../config/SocialLoginConfig';
-import { AppDispatch, persistor } from '../redux/store';
+import { StyleSheet, View } from "react-native";
+import ProfileIcon from "./ProfileIcon";
+import { Text } from "react-native";
+import AppActions from "./AppActions";
 
-const AppHeader: React.FC<AppHeaderProps> = ({ navigation }) => {
-    const [menuVisible, setMenuVisible] = useState(false);
-    const [dialogVisible, setDialogVisible] = useState(false);
-    const dispatch = useDispatch<AppDispatch>();
+interface AppHeaderProps {
+    navigation: any;
+    title: string;
+}
 
-    const openMenu = () => setMenuVisible(true);
-    const closeMenu = () => setMenuVisible(false);
-
-    const openDialog = () => setDialogVisible(true);
-    const closeDialog = () => setDialogVisible(false);
-
-    const handleLogout = () => {
-        signOutScocialAccount()
-        dispatch(logoutUser());
-        closeDialog();
-        persistor.purge(); 
-    };
-
+const AppHeader : React.FC<AppHeaderProps> = ({ navigation, title }) => {
     return (
-        <>
-            <View style={{ flexDirection: 'row' }}>
-                <IconButton
-                    icon="magnify"
-                    onPress={() => navigation.navigate('Search')}
-                />
-
-                <Menu
-                    visible={menuVisible}
-                    onDismiss={closeMenu}
-                    anchor={
-                        <IconButton
-                            icon="dots-vertical"
-                            onPress={openMenu}
-                        />
-                    }
-                >
-                    <Menu.Item
-                        onPress={() => {
-                            closeMenu();
-                            openDialog();
-                        }}
-                        title="Logout"
-                    />
-                </Menu>
-            </View>
-
-            <Portal>
-                <Dialog visible={dialogVisible} onDismiss={closeDialog}>
-                    <Dialog.Title>Confirm Logout</Dialog.Title>
-                    <Dialog.Content>
-                        <Paragraph>Are you sure you want to logout?</Paragraph>
-                    </Dialog.Content>
-                    <Dialog.Actions>
-                        <Button onPress={closeDialog}>Cancel</Button>
-                        <Button onPress={handleLogout}>Logout</Button>
-                    </Dialog.Actions>
-                </Dialog>
-            </Portal>
-        </>
+        <View style={styles.header}>
+            <ProfileIcon navigation={navigation} />
+            <Text style={styles.title}>{title}</Text>
+            <AppActions navigation={navigation} />
+        </View>
     );
 };
+
+const styles = StyleSheet.create({
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: '#fff',
+        elevation: 0,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 1,
+    },
+
+    title: {
+        fontSize: 20,
+        color:'black',
+        fontWeight: 'bold',
+    },
+});
 
 export default AppHeader;

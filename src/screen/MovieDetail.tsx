@@ -4,13 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { setFavorite } from "../redux/slice/MovieSlice";
-import { MovieDetalRouteProp } from "../types/RootStackParamList";
+import { MovieDetalRouteProp, RootStackParamList } from "../types/RootStackParamList";
 import { Title } from "react-native-paper";
 import StarRating from "../component/RatingStar";
 import { calculateFiveStarRating } from "../utils/GeneratlUtil";
 import { useGetMovieTrailerQuery } from "../redux/services/MovieService";
 import { Trailer } from "../redux/model/MovieModel";
 import MovieCastList from "../component/MovieCastList";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 interface MovieDetailProps {
     route: MovieDetalRouteProp
@@ -18,6 +20,8 @@ interface MovieDetailProps {
 const MovieDetail : React.FC<MovieDetailProps> = ({route})=> {
 
     const dispatch = useDispatch<AppDispatch>()
+    const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
     const movie = route.params.movie;
     const formattedRating: string = movie.vote_average !== undefined ? movie.vote_average.toFixed(1) : "0.0";
     const favorites = useSelector((state: RootState) => state.movie.favorites)
@@ -31,20 +35,30 @@ const MovieDetail : React.FC<MovieDetailProps> = ({route})=> {
 
     const trailer: Trailer | undefined = trailers?.results?.find(t=> t.type === "Trailer" && t.site === "Youtube");
 
+    const handlePosterPress = () => {
+        if (trailer) {
+            navigation.navigate('TrailerViewScreen',{videoUrl: trailer.key});
+        } else {
+            navigation.navigate('ImageViewScreen', { imageUrl: `${IMG_PATH}/${movie.poster_path}` });
+        }
+    };
+
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollView} showsVerticalScrollIndicator={false}>
             <View style={styles.posterBg}>
-                <Image 
-                style={styles.poster}
-                source={{uri:`${IMG_PATH}/${movie.poster_path}`}}
-                />
-                {trailer && (
-                    <Pressable style={styles.playBtn} onPress={()=>{}}>
-                    <MaterialIcons name="play-arrow" size={30} color={'white'}/>
-                </Pressable>
-                )}
-            </View>
+                    <Pressable onPress={handlePosterPress}>
+                        <Image
+                            style={styles.poster}
+                            source={{ uri: `${IMG_PATH}/${movie.poster_path}` }}
+                        />
+                    </Pressable>
+                    {trailer && (
+                        <Pressable style={styles.playBtn} onPress={handlePosterPress}>
+                            <MaterialIcons name="play-arrow" size={30} color={'white'} />
+                        </Pressable>
+                    )}
+                </View>
             <Title style={styles.title}>{movie.title}</Title>
             <View style={styles.ratingFavContainer}>
             <View style={styles.ratingContainer}>

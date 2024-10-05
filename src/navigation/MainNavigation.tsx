@@ -4,23 +4,26 @@ import MovieTabNavigation from "./MoviesTabNavigation";
 import { RootStackParamList } from "../types/RootStackParamList";
 import SearchScreen from "../screen/SearchScreen";
 import AppHeader from "../component/AppHeader";
+import ImageViewScreen from "../screen/ImageViewScreen";
+import TrailerViewScreen from "../screen/TrailerViewScreen";
+import ProfileScreen from "../screen/ProfileScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const MainNavigation = () => {
     return (
-        <Stack.Navigator initialRouteName='LoginScreen'>
+        <Stack.Navigator initialRouteName='MovieTabNavigation'>
+
             <Stack.Screen
-                options={({ navigation }) => ({
-                    title: "Movies Explorer App",
-                    headerRight: () => <AppHeader navigation={navigation} />
+                options={({ navigation}) => ({
+                    header: () => <AppHeader navigation={navigation} title="Movies Explorer App"/>
                 })}
                 name='MovieTabNavigation'
                 component={MovieTabNavigation}
             />
 
             <Stack.Screen
-                options={({ navigation }) => ({
+                options={() => ({
                     title: "Details",
                 })}
                 name='MovieDetail'
@@ -34,6 +37,30 @@ const MainNavigation = () => {
                 }}
                 name='Search'
                 component={SearchScreen}
+            />
+
+            <Stack.Screen
+                options={{
+                    title:''
+                }}
+                name="ImageViewScreen"
+                component={ImageViewScreen}
+            />
+
+            <Stack.Screen
+                options={{
+                    title:'Trailer'
+                }}
+                name='TrailerViewScreen'
+                component={TrailerViewScreen}
+            />
+
+            <Stack.Screen
+                options={{
+                    title:'Profile'
+                }}
+                name='ProfileScreen'
+                component={ProfileScreen}
             />
         </Stack.Navigator>
     );

@@ -62,7 +62,6 @@ const LoginScreen = () => {
             } else {
                 const userInfoResponse = await fetch(`https://graph.facebook.com/me?access_token=${message.accessToken}&fields=id,name,email`);
                 const userInfo = await userInfoResponse.json();
-
                 if (userInfo) {
                     const user: LoginUser = {
                         socialId: userInfo.id,
@@ -70,7 +69,7 @@ const LoginScreen = () => {
                         name: userInfo.name,
                     };
 
-                    dispatch(loginSuccess(user));
+                    dispatch(login(user));
                 } else {
                     showErrorMsg("Failed to fetch user information.");
                 }

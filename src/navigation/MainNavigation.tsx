@@ -16,7 +16,7 @@ const MainNavigation = () => {
 
             <Stack.Screen
                 options={({ navigation}) => ({
-                    header: () => <AppHeader navigation={navigation} title="Movies Explorer App"/>
+                    header: () => <AppHeader navigation={navigation} title="Movie Explorer App"/>
                 })}
                 name='MovieTabNavigation'
                 component={MovieTabNavigation}

@@ -7,6 +7,7 @@ export type RootStackParamList = {
     MovieDetail: { movie: Movie };
     Search: undefined;
     LoginScreen: undefined;
+    SplashScreen: undefined;
   };
   
   export type MovieTabParamList = {

@@ -9,6 +9,8 @@ import { setFavorite } from "../redux/slice/MovieSlice";
 import { resetPages, setUpcomingPage } from "../redux/slice/PaginationSlice";
 import { networkStatusCheck } from "../utils/NetworkStatusCheck";
 import MovieListComponent from "../component/MovieListComponent";
+import { View } from "react-native";
+import NoInternetWarning from "../component/NoInternetWarning";
 
 const UpcomingScreen = () => {
   const navigation = useNavigation<UpcomingScreenNavigationProp>();
@@ -28,7 +30,7 @@ const UpcomingScreen = () => {
   const favorites = useSelector((state: RootState) => state.movie.favorites);
 
   const loadMoreUpcoming = () => {
-    if (!upcomingFetching) {
+    if (!upcomingFetching && isNetwork) {
       dispatch(setUpcomingPage());
     }
   };
@@ -48,19 +50,23 @@ const UpcomingScreen = () => {
   }, [upcomingFetching, upcomingMovies]);
 
   return (
-    <MovieListComponent
-      movies={movieList}
-      loading={upcomingLoading}
-      fetching={upcomingFetching}
-      error={upcomingError}
-      favorites={favorites}
-      isNetwork={isNetwork}
-      onLoadMore={loadMoreUpcoming}
-      onRefresh={callRefresh}
-      onToggleFavorite={(movie) => dispatch(setFavorite(movie))}
-      onMovieClick={(movie) => navigation.navigate("MovieDetail", { movie })}
-      page={upcomingPage}
-    />
+    <View style={{ flex: 1 }}>
+      {!isNetwork && <NoInternetWarning visible={true} position={0} />}
+
+      <MovieListComponent
+        movies={movieList}
+        loading={upcomingLoading}
+        fetching={upcomingFetching}
+        error={upcomingError}
+        favorites={favorites}
+        isNetwork={isNetwork}
+        onLoadMore={loadMoreUpcoming}
+        onRefresh={callRefresh}
+        onToggleFavorite={(movie) => dispatch(setFavorite(movie))}
+        onMovieClick={(movie) => navigation.navigate("MovieDetail", { movie })}
+        page={upcomingPage}
+      />
+    </View>
   );
 };
 

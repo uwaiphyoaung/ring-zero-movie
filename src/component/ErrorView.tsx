@@ -1,5 +1,5 @@
 import { StyleSheet, View , Text} from "react-native";
-import { Button, Paragraph, Title } from "react-native-paper";
+import { Button, Paragraph } from "react-native-paper";
 import { globalStyles } from "../utils/GeneralStyle";
 import React from "react";
 

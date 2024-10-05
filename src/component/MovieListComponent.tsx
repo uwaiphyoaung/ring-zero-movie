@@ -1,8 +1,7 @@
-import { FlatList, ActivityIndicator, View } from "react-native";
+import { FlatList, ActivityIndicator, View} from "react-native";
 import MovieItemCard from "./MovieItemCard";
 import { generateRandomFiveDigitNumber } from "../utils/GeneratlUtil";
 import ErrorView from "./ErrorView";
-import NoInternetWarning from "./NoInternetWarning";
 import { Movie } from "../redux/model/MovieModel";
 
 interface MovieListComponentProps {
@@ -17,7 +16,6 @@ interface MovieListComponentProps {
   onToggleFavorite: (movie: Movie) => void;
   onMovieClick: (movie: Movie) => void;
   page: number;
-  fromHome?: boolean;
 }
 
 const MovieListComponent = ({
@@ -32,7 +30,6 @@ const MovieListComponent = ({
   onToggleFavorite,
   onMovieClick,
   page,
-  fromHome = true
 }: MovieListComponentProps) => {
 
   const FooterLoader = () => {
@@ -49,7 +46,7 @@ const MovieListComponent = ({
 
   return (
     <View style={{ flex: 1 }}>
-      (fromHome & <NoInternetWarning visible={isNetwork} />)
+
       <FlatList
         data={movies}
         renderItem={({ item: movie }) => {

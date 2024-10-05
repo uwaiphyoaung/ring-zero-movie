@@ -23,13 +23,13 @@ class MovieItemCard extends React.PureComponent<MovieItemCardProps> {
         return (
             <TouchableOpacity onPress={onClick}>
                 <View style={styles.cardContainer}>
-                    <View style={styles.posterContainer}>
+                    <View style={[,styles.posterContainer]}>
                         <Image 
                             style={styles.poster}
                             source={{ uri: `${IMG_PATH}/${data.poster_path}` }} 
                         />
                     </View>
-                    <Card style={styles.content}>
+                    <Card style={[{marginTop: data.overview? 20: 40},styles.content]}>
                         <Card.Content>
                             <Title 
                                 numberOfLines={1}
@@ -103,7 +103,6 @@ const styles = StyleSheet.create({
     },
     content: {
         paddingLeft: 130,
-        marginTop: 20,
         borderRadius: 2,
         paddingVertical: 1,
     },

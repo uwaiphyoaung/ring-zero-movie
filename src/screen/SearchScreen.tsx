@@ -1,25 +1,24 @@
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
-import { useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
-import { ActivityIndicator } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
 import { useSearchMoviesQuery } from "../redux/services/MovieService";
 import { setFavorite } from "../redux/slice/MovieSlice";
 import { networkStatusCheck } from "../utils/NetworkStatusCheck";
 import SearchBar from "../component/SearchBar";
-import AppColors from "../utils/ColorUtils";
 import NoInternetWarning from "../component/NoInternetWarning";
 import MessageView from "../component/MessageView";
 import MovieListComponent from "../component/MovieListComponent";
-import { RootStackParamList, SearchRouteProp } from "../types/RootStackParamList";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../types/RootStackParamList";
 
-const SearchScreen: React.FC<SearchRouteProp>  = () => {
+const SearchScreen: React.FC = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const dispatch = useDispatch<AppDispatch>();
 
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [submittedQuery, setSubmittedQuery] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [movies, setMovies] = useState<any[]>([]);
@@ -28,8 +27,8 @@ const SearchScreen: React.FC<SearchRouteProp>  = () => {
   const isNetwork = networkStatusCheck();
 
   const { data, error, isLoading, isFetching } = useSearchMoviesQuery(
-    { query: searchQuery, page },
-    { skip: !searchQuery || !isNetwork }
+    { query: submittedQuery, page },
+    { skip: !submittedQuery || !isNetwork }
   );
 
   useEffect(() => {
@@ -43,13 +42,23 @@ const SearchScreen: React.FC<SearchRouteProp>  = () => {
     }
   }, [data]);
 
-  const handleSearch = (keyword: string) => {
-    setSearchQuery(keyword);
-    setPage(1);
+  const handleSearch = () => {
+    if (searchQuery.trim().length > 0) {
+      setSubmittedQuery(searchQuery);
+      setPage(1);
+    } else {
+      setMovies([]);
+    }
+  };
+
+  const handleSearchClear = () => {
+    setSearchQuery('');
+    setSubmittedQuery('');
+    setMovies([]);
   };
 
   const loadMore = () => {
-    if (!isFetching && hasMore) {
+    if (!isFetching && hasMore && isNetwork) {
       setPage((prev) => prev + 1);
     }
   };
@@ -60,18 +69,24 @@ const SearchScreen: React.FC<SearchRouteProp>  = () => {
 
   return (
     <View style={styles.container}>
-      <NoInternetWarning visible={isNetwork && movies.length > 0} position={50} />
+      <SearchBar 
+        searchQuery={searchQuery} 
+        setSearchQuery={setSearchQuery} 
+        onSearch={handleSearch}
+        onClear={handleSearchClear}
+        onBack={handleBack} 
+      />
 
-      <SearchBar searchQuery={searchQuery} onSearch={handleSearch} onBack={handleBack} />
+      {!isNetwork && <NoInternetWarning visible={true} position={50} />}
 
       <View style={styles.body}>
-        {(!searchQuery && !isLoading) && (
-          <MessageView icon="search" title="Search" message="Discover and explore your favorite movies" />
+        {(!submittedQuery && !isLoading) && (
+          <MessageView icon="search" title="Search" message="Discover and explore your favorite movies." />
         )}
 
-        {error && <MessageView title="Error" message="Something went wrong" />}
+        {error && <MessageView title="Error" message="Something went wrong!" icon="error" />}
 
-        {data?.results.length === 0 && searchQuery && <MessageView title="No Results" message="No movie found" />}
+        {data?.results.length === 0 && submittedQuery && <MessageView title="No Results" message="No movies found." icon="movie" />}
 
         <MovieListComponent
           movies={movies}
@@ -81,18 +96,11 @@ const SearchScreen: React.FC<SearchRouteProp>  = () => {
           favorites={favorites}
           isNetwork={isNetwork}
           onLoadMore={loadMore}
-          onRefresh={() => handleSearch(searchQuery)}
+          onRefresh={() => handleSearch()}
           onToggleFavorite={(movie) => dispatch(setFavorite(movie))}
           onMovieClick={(movie) => navigation.navigate('MovieDetail', { movie })}
           page={page}
-          fromHome={false}
         />
-
-        {page > 1 && isLoading && (
-          <View style={styles.messageContainer}>
-            <ActivityIndicator size="small" color={AppColors.primary} />
-          </View>
-        )}
       </View>
     </View>
   );
@@ -104,11 +112,6 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
-  },
-  messageContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
 });
 

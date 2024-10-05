@@ -1,15 +1,17 @@
 import React from 'react';
 import { Appbar, TextInput } from 'react-native-paper';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import AppColors from '../utils/ColorUtils';
 
 interface SearchBarProps {
   searchQuery: string;
-  onSearch: (query: string) => void;
+  setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+  onSearch: () => void;
+  onClear: () => void;
   onBack: () => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ searchQuery, onSearch, onBack }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ searchQuery, setSearchQuery, onSearch, onClear, onBack }) => {
   return (
     <Appbar.Header style={styles.appBar} elevated>
       <Appbar.BackAction onPress={onBack} />
@@ -25,8 +27,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchQuery, onSearch, onBack }) 
         numberOfLines={1}
         maxLength={50}
         autoFocus={true}
+        returnKeyType="search"
         value={searchQuery}
-        onChangeText={onSearch}
+        onChangeText={setSearchQuery}
+        onSubmitEditing={onSearch}
+        right={searchQuery.length>0?<TextInput.Icon icon="close" onPress={onClear} />:<View/>}
       />
     </Appbar.Header>
   );

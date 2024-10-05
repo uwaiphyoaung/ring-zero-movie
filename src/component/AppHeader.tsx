@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { IconButton, Menu, Dialog, Paragraph, Button, Portal } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
-import { logout } from '../redux/slice/AuthSlice';
+import { logoutUser } from '../redux/slice/AuthSlice';
 import { AppHeaderProps } from '../types/RootStackParamList';
 import { signOutScocialAccount } from '../config/SocialLoginConfig';
-import { persistor } from '../redux/store';
+import { AppDispatch, persistor } from '../redux/store';
 
 const AppHeader: React.FC<AppHeaderProps> = ({ navigation }) => {
     const [menuVisible, setMenuVisible] = useState(false);
     const [dialogVisible, setDialogVisible] = useState(false);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     const openMenu = () => setMenuVisible(true);
     const closeMenu = () => setMenuVisible(false);
@@ -20,7 +20,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({ navigation }) => {
 
     const handleLogout = () => {
         signOutScocialAccount()
-        dispatch(logout());
+        dispatch(logoutUser());
         closeDialog();
         persistor.purge(); 
     };

@@ -9,6 +9,8 @@ import { setFavorite } from "../redux/slice/MovieSlice";
 import { resetPages, setPopularPage } from "../redux/slice/PaginationSlice";
 import { networkStatusCheck } from "../utils/NetworkStatusCheck";
 import MovieListComponent from "../component/MovieListComponent";
+import { View } from "react-native";
+import NoInternetWarning from "../component/NoInternetWarning";
 
 const PopularScreen = () => {
   const navigation = useNavigation<PopularScreenNavigationProp>();
@@ -28,7 +30,7 @@ const PopularScreen = () => {
   const favorites = useSelector((state: RootState) => state.movie.favorites);
 
   const loadMorePopular = () => {
-    if (!popularFetching) {
+    if (!!popularFetching && isNetwork) {
       dispatch(setPopularPage());
     }
   };
@@ -48,19 +50,23 @@ const PopularScreen = () => {
   }, [popularFetching, popularMovies]);
 
   return (
-    <MovieListComponent
-      movies={movieList}
-      loading={popularLoading}
-      fetching={popularFetching}
-      error={popularError}
-      favorites={favorites}
-      isNetwork={isNetwork}
-      onLoadMore={loadMorePopular}
-      onRefresh={callRefresh}
-      onToggleFavorite={(movie) => dispatch(setFavorite(movie))}
-      onMovieClick={(movie) => navigation.navigate("MovieDetail", { movie })}
-      page={popularPage}
-    />
+    <View style={{ flex: 1 }}>
+      {!isNetwork && <NoInternetWarning visible={true} position={0} />}
+
+      <MovieListComponent
+        movies={movieList}
+        loading={popularLoading}
+        fetching={popularFetching}
+        error={popularError}
+        favorites={favorites}
+        isNetwork={isNetwork}
+        onLoadMore={loadMorePopular}
+        onRefresh={callRefresh}
+        onToggleFavorite={(movie) => dispatch(setFavorite(movie))}
+        onMovieClick={(movie) => navigation.navigate("MovieDetail", { movie })}
+        page={popularPage}
+      />
+    </View>
   );
 };
 

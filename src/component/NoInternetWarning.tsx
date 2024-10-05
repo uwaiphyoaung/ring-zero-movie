@@ -9,7 +9,7 @@ const NoInternetWarning : React.FC<NoInternetWarningProps> = ({visible, position
     if(!visible){
         return (
             <View style={[{top: position},styles.offlineMessageContainer]}>
-              <Text style={styles.offlineMessageText}>You are offline.</Text>
+              <Text style={styles.offlineMessageText}>You are offline. Check your connection!</Text>
             </View>
         );
     }

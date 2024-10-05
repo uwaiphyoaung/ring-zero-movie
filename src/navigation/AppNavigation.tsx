@@ -1,29 +1,22 @@
+import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import MainNavigation from "./MainNavigation";
 import LoginNavigation from "./LoginNavigation";
-import { loginSuccess } from "../redux/slice/AuthSlice";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import SplashScreen from "../screen/SplashScreen";
 
-const AppNavigation = () => {
+const AppNavigation: React.FC = () => {
     const isLoggedIn = useSelector((state: RootState) => state.auth.isAuthenticated);
-    const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        const rehydrateAuth = async () => {
-            const authState = await AsyncStorage.getItem('persist:auth');
-            if (authState) {
-                const parsedAuthState = JSON.parse(authState);
-                if (parsedAuthState.isAuthenticated) {
-                    dispatch(loginSuccess(parsedAuthState.user));
-                }
-            }
-        };
+    const handleSplashFinish = () => {
+        setIsLoading(false);
+    };
 
-        rehydrateAuth();
-    }, [dispatch]);
+    if (isLoading) {
+        return <SplashScreen onFinish={handleSplashFinish} />;
+    }
 
     return (
         <NavigationContainer>

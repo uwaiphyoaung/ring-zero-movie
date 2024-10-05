@@ -27,13 +27,13 @@ const MovieDetail : React.FC<MovieDetailProps> = ({route})=> {
         dispatch(setFavorite(movie));
     }
 
-    const {data: trailers, isLoading: isLoadingTrailer} = useGetMovieTrailerQuery(movie.id);
+    const {data: trailers} = useGetMovieTrailerQuery(movie.id);
 
     const trailer: Trailer | undefined = trailers?.results?.find(t=> t.type === "Trailer" && t.site === "Youtube");
 
     return (
         <View style={styles.container}>
-            <ScrollView contentContainerStyle={styles.scrollView}>
+            <ScrollView contentContainerStyle={styles.scrollView} showsVerticalScrollIndicator={false}>
             <View style={styles.posterBg}>
                 <Image 
                 style={styles.poster}
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     },
     posterBg: {
         position:'relative',
-        marginBottom:15
+        marginBottom:15,
     },
     poster: {
         width:'100%',
@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
         marginRight: 10
     },
     description: {
+        fontSize:14,
         marginBottom:10,
     },
     footer: {

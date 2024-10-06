@@ -86,7 +86,7 @@ const SearchScreen: React.FC = () => {
 
         {error && <MessageView title="Error" message="Something went wrong!" icon="error" />}
 
-        {data?.results.length === 0 && submittedQuery && <MessageView title="No Results" message="No movies found." icon="movie" />}
+        {page===1 && data?.results.length === 0 && submittedQuery && <MessageView title="No Results" message="No movies found." icon="movie" />}
 
         <MovieListComponent
           movies={movies}

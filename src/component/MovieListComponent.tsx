@@ -36,7 +36,7 @@ const MovieListComponent = ({
     if (page > 1 && fetching) {
       return <ActivityIndicator style={{ marginVertical: 10 }} size={"small"} color="#0000ff" />;
     } else {
-      return <View />;
+      return <View></View>;
     }
   };
 

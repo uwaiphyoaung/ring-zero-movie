@@ -5,7 +5,7 @@ import { statusCodes } from "@react-native-google-signin/google-signin";
 import { configureGoogleLogin, facebookLogin } from "../config/SocialLoginConfig";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../redux/store";
-import { login, loginSuccess } from "../redux/slice/AuthSlice";
+import { login } from "../redux/slice/AuthSlice";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { GoogleIcon } from "../component/memoizing/MemoizedIcons";
 import { Snackbar } from 'react-native-paper';
@@ -37,6 +37,7 @@ const LoginScreen = () => {
                     email: userInfo.data?.user.email,
                     name: userInfo.data?.user.name,
                 };
+                setSnackbarMessage(`Welcome ${user.name}!`);
                 dispatch(login(user));
             } else {
                 showErrorMsg("You canceled the Google Sign In.");
@@ -68,14 +69,13 @@ const LoginScreen = () => {
                         email: userInfo.email,
                         name: userInfo.name,
                     };
-
+                    setSnackbarMessage(`Welcome ${user.name}!`);
                     dispatch(login(user));
                 } else {
                     showErrorMsg("Failed to fetch user information.");
                 }
             }
         } catch (error) {
-            console.error(error);
             showErrorMsg("Facebook Login Error");
         }
     };
@@ -100,6 +100,7 @@ const LoginScreen = () => {
             </View>
             <Text style={styles.version}>Version: 1.0.0</Text>
             <Snackbar
+                testID="snackbar"
                 visible={snackbarMessage.length > 0}
                 onDismiss={clearError}
                 duration={3000}

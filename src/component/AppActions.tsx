@@ -28,7 +28,7 @@ const AppActions: React.FC<AppHeaderProps> = ({ navigation }) => {
     };
 
     return (
-        <>
+        <View>
             <View style={{ flexDirection: 'row' }}>
                 <IconButton
                     icon="magnify"
@@ -60,7 +60,7 @@ const AppActions: React.FC<AppHeaderProps> = ({ navigation }) => {
 
             <LogoutDialog visible={dialogVisible} onDismiss={closeDialog} />
 
-        </>
+        </View>
     );
 };
 

@@ -30,7 +30,7 @@ const ErrorView: React.FC<ErrorViewProps> = ({visible,title,retry}) => {
     }
 
     return (
-        <View/>    
+        <View></View>
     );
 };
 

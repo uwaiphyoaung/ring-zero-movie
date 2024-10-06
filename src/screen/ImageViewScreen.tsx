@@ -10,7 +10,7 @@ const ImageViewScreen : React.FC<ImageViewRouteProps> = ({route}) => {
 
   return (
     <View style={styles.container}>
-      <ImageViewer renderIndicator={()=><View/>} imageUrls={images} style={styles.image} />
+      <ImageViewer renderIndicator={()=><View></View>} imageUrls={images} style={styles.image} />
     </View>
   );
 };

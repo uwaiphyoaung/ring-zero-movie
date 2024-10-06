@@ -5,6 +5,8 @@
     "module": "ESNext",
     "allowJs": true,
     "noEmit": true,
+    "types": ["node","jest"],
+    "typeRoots": ["./node_modules/@types", "./@types"],
     "jsx": "react-jsx",
     "strict": true,
     "esModuleInterop": true,
@@ -17,6 +19,6 @@
       "@env": ["./types/env.d.ts"]
     },
   },
-  "include": ["src/**/*", "tests/**/*", "__tests__/**/*"],
+  "include": ["src/**/*", "tests/**/*", "__tests__/**/*", "src/types/global.d.ts", "src/types/react-native-reanimated.d.ts"],
   "extends": "@react-native/typescript-config/tsconfig.json"
 }

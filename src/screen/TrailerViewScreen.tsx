@@ -1,4 +1,4 @@
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { TrailerViewRouteProps } from 'src/types/RootStackParamList';
 import React from 'react';
 import WebView from 'react-native-webview';

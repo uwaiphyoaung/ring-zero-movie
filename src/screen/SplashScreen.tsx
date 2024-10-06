@@ -11,7 +11,7 @@ interface SplashScreenProps {
 }
 
 const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
-    const position = useSharedValue(500);
+    const position = useSharedValue(400);
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
@@ -26,7 +26,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
                 dispatch(loginSuccess(user));
             }
             onFinish();
-        }, 3000);
+        }, 1500);
 
         return () => clearTimeout(timer);
     }, [position, onFinish, dispatch]);
@@ -35,13 +35,13 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
         return {
             transform: [{ translateY: position.value }],
         };
-    });
+    },[position]);
 
     return (
         <View style={styles.container}>
             <Animated.Text style={[styles.text, animatedTextStyle]}>Movie Explorer</Animated.Text>
 
-            <ActivityIndicator size="large" style={styles.spinner} />
+            <ActivityIndicator size="large" style={styles.spinner}></ActivityIndicator>
         </View>
     );
 };
